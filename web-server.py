@@ -6,10 +6,10 @@ import os
 serverSocket = socket(AF_INET, SOCK_STREAM) 
 
 #Prepare the sever socket
-#FillInStart 
+#FillInStart
 #FillInEnd 
 
-while True:     
+while True:    
     print('Ready to serve...') 
     #Set up a new connection from the client
     connectionSocket, addr = serverSocket.accept()
@@ -24,15 +24,15 @@ while True: 
         
         #Extract the path of the requested object from the message
         #The path is the second part of HTTP header, identified by [1]
-        filename = message.split()[1] 
+        filename = message.split()[1]
         #Because the extracted path of the HTTP request includes 
         #a character '\', we read the path from the second character 
-        f = open(filename[1:])      
+        f = open(filename[1:])     
         #Store the entire content of the requested file in a buffer
         outputdata = f.read()
         
         #Send the HTTP response header line to the connection socket
-        #FillInStart        
+        #FillInStart       
         #FillInEnd
 
         #Send the content of the requested file to the client 
@@ -51,5 +51,5 @@ while True: 
         connectionSocket.close()
 
 #Terminate the program
-serverSocket.close() 
+serverSocket.close()
 sys.exit()
