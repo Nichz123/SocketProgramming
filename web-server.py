@@ -12,7 +12,13 @@ port = 3001
 hostname = gethostname()
 
 # Get the IP address of the machine
-ip_address = gethostbyname(hostname)
+# Getting IP from host name does not work reliably on linux.
+# This works around the issue by connecting to google, then 
+# using that connection to determine the actual IP address
+with socket(AF_INET, SOCK_DGRAM) as s:
+    s.connect(("8.8.8.8", 80))
+    ip_address = s.getsockname()[0]
+    
 print(ip_address, port)
 serverSocket.bind(('', port))
 serverSocket.listen(1)
