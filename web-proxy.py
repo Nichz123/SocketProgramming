@@ -34,7 +34,7 @@ while True:
     # accept a connection from the client side and decode the message/request
     clientSide, addr = listener.accept()
     #FillInStart
-    message = clientSide.recv(10000).decode()
+    message = clientSide.recv(4096).decode()
     print(message)
     #FillInEnd
     # for now, lets ignore all the requests that are not GET
@@ -84,6 +84,9 @@ while True:
 
         # we open the socket to the server and make the request at port 80
         # FillInStart
+        serverSide = socket()
+        print(domain, gethostbyname(domain), 80)
+        serverSide.connect((gethostbyname(domain), 80))
         # FillInEnd
 
         # using the port you have created above to send the GET request
@@ -107,9 +110,8 @@ while True:
 
     # send the outputdata (GET response) back to the client
     # FillInStart
-    for i in range(0, len(outputdata)):
-        clientSide.send(outputdata[i].encode())
-    clientSide.send("\r\n".endcode())
+    clientSide.send(outputdata)
+    clientSide.send("\r\n".encode())
     clientSide.close()
     # FillInEnd
     print("data sent")
