@@ -1,5 +1,5 @@
 #test
-import socket
+from socket import *
 import sys
 import os
 
@@ -17,15 +17,26 @@ def recvall(sock):
     return data
 
 # Create a server socket, bind it to a port and start listening
-listener = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+listener = socket(AF_INET, SOCK_STREAM)
 # FillInStart
+port = 3002
+with socket(AF_INET, SOCK_DGRAM) as s:
+    s.connect(("8.8.8.8", 80))
+    ip_address = s.getsockname()[0]
+
+print(ip_address, port)
+listener.bind(('', port))
+listener.listen(1)
 # FillInEnd
 print('Ready to serve...')
 
 while True:
     # accept a connection from the client side and decode the message/request
     clientSide, addr = listener.accept()
-    message = #FillInStart #FillInEnd
+    #FillInStart
+    message = clientSide.recv(10000).decode()
+    print(message)
+    #FillInEnd
     # for now, lets ignore all the requests that are not GET
     # the remaining requests will just be discarded and the client 
     # will receive no response for those requests
@@ -95,7 +106,11 @@ while True:
         outputdata = GET_response
 
     # send the outputdata (GET response) back to the client
-    # FillInStart 
+    # FillInStart
+    for i in range(0, len(outputdata)):
+        clientSide.send(outputdata[i].encode())
+    clientSide.send("\r\n".endcode())
+    clientSide.close()
     # FillInEnd
     print("data sent")
 
